@@ -138,13 +138,13 @@ class Pruner(FilterRanker):
     def prune_model(
         self,
         train_loader,
-        no_filters_to_prune,
+        k_filters,
     ):
 
         self.get_filter_rankings(train_loader)  # get rankings for one epoch
         self.normalize_rankings_per_layer()  # normalize rankings
 
-        lowest_k_filters = self.lowest_ranking_filters(no_filters_to_prune)
+        lowest_k_filters = self.lowest_ranking_filters(k_filters)
 
         layer_filter_pairs = self.adjust_subseq_layer_kernel_pos(lowest_k_filters)
 
