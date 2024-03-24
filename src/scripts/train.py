@@ -22,6 +22,7 @@ from src.config.train_params import (
     LEARNING_RATE,
     BATCH_SIZE,
 )
+from src.config.prune_params import K_FILTERS
 from src.config.output import SAVE_DIR
 
 import mlflow
@@ -29,8 +30,8 @@ import mlflow
 
 if __name__ == "__main__":
 
-    # set tracking URI
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    # Set tracking URI inside docker container
+    mlflow.set_tracking_uri("http://0.0.0.0:5000")
     # name experiment
     mlflow.set_experiment("/cnn-pruning")
 
@@ -45,6 +46,9 @@ if __name__ == "__main__":
     test_loader = DeviceDataLoader(test_dataloader, device)
 
     with mlflow.start_run() as run:
+
+        print(f"RUN_ID: {run.info.run_id}")
+        print()
 
         params = {
             "epochs": NUM_EPOCHS,
@@ -97,15 +101,14 @@ if __name__ == "__main__":
 
         fr.normalize_rankings_per_layer()  # finally, we normalize per layer
 
-        # Get lowest ranked 8 filters by ranking.
+        # Get lowest ranked k filters by ranking.
         # Note that these filters are ranked across all layers.
-        no_filters_to_prune = 8
-        lowest_filters = fr.lowest_ranking_filters(no_filters_to_prune)
+        lowest_filters = fr.lowest_ranking_filters(K_FILTERS)
         layer_filters_pruned = defaultdict(int)
         for layer, filter_index, _ in lowest_filters:
             layer_filters_pruned[layer] += 1
 
-        print("Percentage of layers to be pruned")
+        print("Percentage of filters to be pruned")
         for layer in layer_filters_pruned:
             no_filters_to_prune = layer_filters_pruned[layer]
             total_filters = model._modules["network"][layer].out_channels
@@ -127,7 +130,7 @@ if __name__ == "__main__":
         pr = Pruner(model_copy)
 
         model_pruned = pr.prune_model(train_loader,
-                                      no_filters_to_prune=no_filters_to_prune)
+                                      k_filters=K_FILTERS)
 
         # save pruned model summary as artifact in MLflow
         # Log model summary.
