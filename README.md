@@ -31,6 +31,13 @@ Once MLflow server has started, train, prune, and fine-tune the model running th
 
     python src/scripts/train.py
 
+#### Predict
+
+Once the training script has run successfully, edit the `RUN_ID` param in `src/config/inference_params.py`. Finally, run:
+
+    python src/scripts/predict.py
+
+
 ### Docker
 
 If running on Apple silicon please export the following variable in your terminal before building your Docker image.
