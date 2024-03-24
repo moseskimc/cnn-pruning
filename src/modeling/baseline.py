@@ -40,12 +40,14 @@ class CNN(Base):
     def __init__(self):
         super().__init__()
         self.network = nn.Sequential(
-            nn.Conv2d(1, 8, kernel_size=3, padding=1),
+            nn.Conv2d(1, 4, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.Conv2d(8, 16, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(4, 4, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(4, 8, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
             nn.Flatten(),
-            nn.Linear(16*28*28, 10)
+            nn.Linear(8*28*28, 10)
         )
 
     def forward(self, xb):
