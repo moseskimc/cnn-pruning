@@ -61,7 +61,7 @@ You will be able to access the jupyter server at `localhost:8888` on your web br
 
     docker exec -ti pytorch-jupyter mlflow ui --port 5000 --host 0.0.0.0
 
-Now that you have `mlflow` running, you are ready to run the scripts inside the container.
+The container MLflow port is mapped to `localhost:5001`, which can be viewed on a web browser. Now that you have `mlflow` running, you are ready to run the scripts inside the container.
 
 #### Train
 
@@ -76,7 +76,7 @@ The following command first trains the model and prunes it with a calibration/fi
 
 ## Results
 
-Due to lack of computing rsources, a small CNN with 3 convolutional layers (correponding to layer 0, layer 2, and layer 4) was pruned by layer as follows:
+Due to lack of computing resources, a small CNN with 3 convolutional layers (correponding to layer 0, layer 2, and layer 4) was pruned by layer as follows:
 
 - Layer 0: 50.0%  (1 out of 2)
 - Layer 2: 50.0%  (2 out of 4)
@@ -131,4 +131,4 @@ Model summaries, detailing the number of parameters per layer, before and after 
 
 <img src="resources/metrics.png">
 
-The original model was trained for 10 epochs and the pruned model was calibrated/fine-tuned for another 10 epochs. Observe how the performance of the pruned model at the 6th epoch achieves an accuracy similar to that of the original model even with more than half of the parameters pruned.
+The original model was trained for 10 epochs and the pruned model was calibrated/fine-tuned for another 10. Observe how the performance of the pruned model at the 6th epoch achieves an accuracy similar to that of the original model even with more than half of the parameters pruned.
