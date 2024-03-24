@@ -3,4 +3,5 @@ mlruns/
 
 __pycache__
 
+data/
 output/
