@@ -1,4 +1,4 @@
-RUN_ID = "af2b277f5148462c8ba9bf1a6c1917e2"
+RUN_ID = "58ce123f974c4b7cafbadbe23b06a74d"
 FMNIST_LABELS = [
     "T-shirt/top",
     "Trouser",
