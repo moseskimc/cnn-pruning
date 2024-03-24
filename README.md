@@ -9,17 +9,25 @@
 
 ### Local
 
+#### Environment
+
+First, create your environment including dependencies: `torchvision`, `torchinfo`, and `mlflow`. If using conda, install the dependencies via the command
+    
+    conda create --name <env> --file requirements.txt
+
+Also, make sure to export the current working directory via the command `export PYTHONPATH=$(pwd)` so that all the modules are imported properly when running scripts. 
+
 #### MLflow
 
 In order to launch the MLflow tracking server, run the command below
 
-    mlflow server --host 127.0.0.1 --port 5000
+    mlflow server --host 127.0.0.1 --port 5005
 
 in a separate terminal window.
 
 #### Train
 
-First, create your environment with dependencies: `torch`, `torchvision`, `torchinfo`, and `mlflow`. Also, make sure to export the current working directory via the command `export PYTHONPATH=$(pwd)`. Once MLflow server has started, train, prune, and fine-tune the model running the command below:
+Once MLflow server has started, train, prune, and fine-tune the model running the command below:
 
     python src/scripts/train.py
 
@@ -61,7 +69,14 @@ The following command first trains the model and prunes it with a calibration/fi
 
 ## Results
 
-Due to lack of computing rsources, a small CNN was pruned. Model summaries, detailing the number of parameters per layer, before and after pruning are shown below.
+Due to lack of computing rsources, a small CNN with 3 convolutional layers (correponding to layer 0, layer 2, and layer 4) was pruned by layer as follows:
+
+- Layer 0: 50.0%  (1 out of 2)
+- Layer 2: 50.0%  (2 out of 4)
+- Layer 4: 62.5%  (5 out of 8)
+
+
+Model summaries, detailing the number of parameters per layer, before and after pruning are shown below.
 
 ### Before pruning
 
