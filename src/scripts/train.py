@@ -21,6 +21,7 @@ from src.config.train_params import (
     OPT_FUNC,
     LEARNING_RATE,
     BATCH_SIZE,
+    DOCKER_SCRIPT,
 )
 from src.config.prune_params import K_FILTERS
 from src.config.output import SAVE_DIR
@@ -29,9 +30,13 @@ import mlflow
 
 
 if __name__ == "__main__":
-
-    # Set tracking URI inside docker container
-    mlflow.set_tracking_uri("http://0.0.0.0:5000")
+    # Set tracking URI
+    if DOCKER_SCRIPT:
+        # Docker container
+        mlflow.set_tracking_uri("http://0.0.0.0:5000")
+    else:
+        # Local
+        mlflow.set_tracking_uri("http://127.0.0.1:5005")
     # name experiment
     mlflow.set_experiment("/cnn-pruning")
 
