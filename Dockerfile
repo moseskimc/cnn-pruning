@@ -1,10 +1,9 @@
 FROM ubuntu:latest
 FROM pytorch/pytorch:latest
 
-# Set environment variables
+# Environment variables
 ENV DEBIAN_FRONTEND=noninteractive
-
-# Install system dependencies
+# Dependencies
 RUN apt-get update && \
     apt-get install -y \
         git \
@@ -16,9 +15,8 @@ RUN apt-get update && \
 
 WORKDIR /usr/app
 
-# intall optional python deps
 RUN python -m pip install --upgrade pip
-# jupyter notebooks
+# Jupyter
 RUN pip install jupyter
 # fastdup https://github.com/visual-layer/fastdup
 RUN pip install fastdup
@@ -36,7 +34,7 @@ ENV PYTHONPATH /usr/app
 
 COPY . . 
 
-# Start the notebook
+# Start Jupyter server
 RUN chmod +x /usr/bin/tini
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
