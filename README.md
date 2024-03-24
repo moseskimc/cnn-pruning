@@ -30,9 +30,9 @@ If running on Apple silicon please export the following variable in your termina
     export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 1. Build the custom image
-
+```
     docker build -t pytorch-jupyter . -f Dockerfile
-
+```
 2. Run the container
 
 ```
@@ -42,11 +42,11 @@ If running on Apple silicon please export the following variable in your termina
         pytorch-jupyter:latest
 ```
 
-You will be able to access the jupyter server at `localhost:8888` on your web browser. In order to run mlflow in the same container execute the command below:
+You will be able to access the jupyter server at `localhost:8888` on your web browser. In order to run `mlflow` in the same container execute the command below:
 
     docker exec -ti pytorch-jupyter mlflow ui --port 5000 --host 0.0.0.0
 
-Now that you have mlflow running, you are ready to run the scripts inside the container.
+Now that you have `mlflow` running, you are ready to run the scripts inside the container.
 
 #### Train
 
@@ -55,7 +55,6 @@ The following command first trains the model and prunes it with a calibration/fi
     docker exec -ti pytorch-jupyter python src/scripts/train.py
 
 #### Inference
-
 
 
     docker exec -ti pytorch-jupyter python src/scripts/predict.py
